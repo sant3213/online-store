@@ -16,3 +16,10 @@ code {
   color: red;
   font-size: small;
 }
+
+.signUp-login {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-top: 15%;
+}
