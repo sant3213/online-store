@@ -1,10 +1,11 @@
 
 import SignUp from "./components/sign-up";
+const google = window.google;
 function App() {
 
   return (
     <>
-    <SignUp></SignUp>
+    <SignUp googleInformation = {google}></SignUp>
     </>
   );
 }

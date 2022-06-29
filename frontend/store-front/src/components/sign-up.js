@@ -5,23 +5,26 @@ import * as Yup from "yup";
 import "../App.css";
 import { CREDENTIALS } from "../onlineStoreCredentials";
 import { useEffect } from "react";
+import jwt_decode from 'jwt-decode';
 
-export default function SignUp() {
-  const handleGoogleResponde = (rsp) => {
+export default function SignUp(props) {
+  //let googleButtonSize = "large";
+  const google = props.googleInformation;
+  function handleCallbackResponse(rsp) {
     console.log(rsp);
+    let token = jwt_decode(rsp.credential)
+    console.log(token);
   };
   useEffect(() => {
-    window.google.accounts.id.initialize({
+    google.accounts.id.initialize({
       client_id: CREDENTIALS.ClientId,
-      callback: handleGoogleResponde,
+      callback: handleCallbackResponse
     });
-    window.google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      {
-        theme: "outline",
-        size: "large",
-      }
-    );
+    google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+      theme: "filled_bcirclelue",
+      size: "large",
+      shape: "circle",
+    });
   });
 
   const handleSubmit = (values, { setSubmitting }) =>
@@ -32,7 +35,7 @@ export default function SignUp() {
     }, 400);
 
   const SignupSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email can´t be empty"),
+    //email: Yup.string().email("Invalid email").required("Email can´t be empty"),
   });
 
   const PasswordSchema = Yup.object().shape({
@@ -103,16 +106,15 @@ export default function SignUp() {
                       Submit
                     </button>
                   </div>
-                  <div style={{display: 'flex', justifyContent:'center'}}>
-                    <div id="signInDiv"></div>
-                    </div>
                 </Stack>
               </Form>
             )}
           </Formik>
+          
+            <div id="signInDiv"></div>
+          
         </Card.Body>
       </Card>
-      
     </div>
   );
 }
